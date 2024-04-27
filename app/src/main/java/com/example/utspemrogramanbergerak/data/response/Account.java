@@ -16,6 +16,9 @@ public class Account{
 	@SerializedName("login")
 	private String login;
 
+	@SerializedName("html_url")
+	private String html_url;
+
 	public String getAvatarUrl(){
 		return avatarUrl;
 	}
@@ -30,5 +33,9 @@ public class Account{
 
 	public String getLogin(){
 		return login;
+	}
+
+	public String getHtml_url(){
+		return html_url;
 	}
 }

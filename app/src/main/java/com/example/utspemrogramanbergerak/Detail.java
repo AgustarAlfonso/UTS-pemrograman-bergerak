@@ -2,8 +2,11 @@ package com.example.utspemrogramanbergerak;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,13 +37,14 @@ public class Detail extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null){
             String username = extras.getString("username");
-            Apiservice apiService = Apiconfig.getApiservice();
+            Apiservice apiService = Apiconfig.getApiService();
             Call<Account> userCall = apiService.getUser(username);
 
             TextView textView = findViewById(R.id.tvname);
             TextView textView2 = findViewById(R.id.tvusername);
             TextView textView3 = findViewById(R.id.tvbio);
             ImageView imageView = findViewById(R.id.imgprofile);
+            Button button = findViewById(R.id.btnlink);
 
             showLoading(true);
             userCall.enqueue(new Callback<Account>() {
@@ -55,11 +59,19 @@ public class Detail extends AppCompatActivity {
                             String usernames = "Username: " + user.getLogin();
                             String bio = "Bio: " + user.getBio();
                             String gambar = user.getAvatarUrl();
+                            String url = user.getHtml_url();
 
                             textView.setText(name);
                             textView2.setText(usernames);
                             textView3.setText(bio);
                             Picasso.get().load(gambar).into(imageView);
+
+                            button.setOnClickListener(v ->
+                            {
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse(url));
+                                startActivity(intent);
+                            });
                         }else {
                             Toast.makeText(Detail.this, "Failed to get user data", Toast.LENGTH_SHORT).show();
                         }

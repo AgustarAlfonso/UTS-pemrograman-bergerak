@@ -15,49 +15,48 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class GithubAdapter  extends RecyclerView.Adapter<GithubAdapter.ViewHolder>{
-    private List<Account> accounts;
-
-    public GithubAdapter(List<Account> accounts) {
-        this.accounts = accounts;
+public class GithubAdapter extends RecyclerView.Adapter<GithubAdapter.ViewHolder> {
+    private List<Account> users;
+    public GithubAdapter(List<Account> users) {
+        this.users = users;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_akun, parent, false);
-        return new ViewHolder(view);
+        return new GithubAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Account account = accounts.get(position);
-        holder.usernameTextView.setText(account.getName());
-        Picasso.get().load(account.getAvatarUrl()).into(holder.avatarImageView);
+        Account user = users.get(position);
+        holder.username.setText(user.getLogin());
+        Picasso.get().load(user.getAvatarUrl()).into(holder.images);
 
         holder.itemView.setOnClickListener(click -> {
             Intent intent = new Intent(click.getContext(), Detail.class);
-            intent.putExtra("nama", account.getLogin());
-            intent.putExtra("username", account.getName());
-            intent.putExtra("bio", account.getBio());
-            intent.putExtra("gambar", account.getAvatarUrl());
+            intent.putExtra("nama", user.getName());
+            intent.putExtra("username", user.getLogin());
+            intent.putExtra("link", user.getHtml_url());
+            intent.putExtra("bio", user.getBio());
+            intent.putExtra("gambar", user.getAvatarUrl());
             click.getContext().startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return accounts.size();
+        return users.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView avatarImageView;
-        TextView usernameTextView;
+        ImageView images;
+        TextView username;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            avatarImageView = itemView.findViewById(R.id.imgprofile);
-            usernameTextView = itemView.findViewById(R.id.tvusername);
+            images = itemView.findViewById(R.id.imgprofile);
+            username = itemView.findViewById(R.id.tvusername);
         }
     }
-
 }

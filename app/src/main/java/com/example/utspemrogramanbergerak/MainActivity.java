@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycleview);
 
-        Apiservice apiService = Apiconfig.getApiservice();
-        Call<AccountResponse> call = apiService.searchUsers("diki");
+        Apiservice apiService = Apiconfig.getApiService();
+        Call<AccountResponse> call = apiService.searchUsers("Alfon");
 
         call.enqueue(new Callback<AccountResponse>() {
             @Override
